@@ -1,0 +1,25 @@
+package mail.newsletter.com.utils;
+
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileEntryModel;
+import com.liferay.portal.kernel.exception.ModelListenerException;
+import com.liferay.portal.kernel.model.BaseModelListener;
+import com.liferay.portal.kernel.model.ModelListener;
+import org.osgi.service.component.annotations.Component;
+
+import static mail.newsletter.com.utils.EmailUtils.*;
+
+@Component(
+        immediate = true,
+        service = ModelListener.class
+)
+
+public class CustomerFileListener extends BaseModelListener<DLFileEntry> {
+    @Override
+    public void onAfterCreate(DLFileEntry model) throws ModelListenerException {
+        System.out.println("AssetEntry");
+        getNotifyAdmin();
+        super.onAfterCreate(model);
+    }
+}

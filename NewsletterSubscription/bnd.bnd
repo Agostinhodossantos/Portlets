@@ -1,0 +1,4 @@
+Bundle-Name: NewsletterSubscription
+Bundle-SymbolicName: mail.newsletter.com
+Bundle-Version: 1.0.0
+Export-Package: mail.newsletter.com.constants
