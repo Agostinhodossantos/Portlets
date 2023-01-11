@@ -12,15 +12,9 @@ import java.util.List;
 public class Test {
 
     public static void main(String args[]) {
-        List<String> categories = new ArrayList<>();
-        categories.add("Hr");
-        categories.add("Hr");
-        categories.add("Hr");
-        categories.add("Hr");
 
-
-        String n = categories.toString();
-        System.out.println(n.replace("[", "").replace("]", ""));
+        String b = System.getProperty("java.version");
+        System.out.println("JAVA VERSION IS: "+b);
 
     }
 

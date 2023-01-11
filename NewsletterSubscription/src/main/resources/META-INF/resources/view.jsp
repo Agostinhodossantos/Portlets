@@ -14,7 +14,7 @@
 					<liferay-ui:error key="error-email" message="error-message-mail" />
 					<br>
 					<div class="booking-form">
-						<form action="<portlet:actionURL />" method="post">
+						<form id="registerForm" action="<portlet:actionURL />" method="post">
 							<div class="form-group">
 								<span class="form-label">Email</span>
 								<input id="email" name="<portlet:namespace />email" required class="form-control" type="text" placeholder="Email">
@@ -71,6 +71,13 @@
 	let inputEmail = document.getElementById("email")
 	inputEmail.value = email
 
-	console.log(email)
+
+
+	document.getElementById("registerForm").addEventListener("submit", (event) => {
+		setTimeout(() => {
+			window.location.assign("/subscrito-com-sucesso");
+		}, 1300);
+	});
+
 
 </script>

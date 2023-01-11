@@ -108,7 +108,6 @@ public class NewsletterSubscriptionPortlet extends MVCPortlet {
 				sendMail(email,from, createMailContent(subject,body, pageLink, unsubscribeLink,btnName) , subject);
 			} catch (AddressException e) {
 				SessionErrors.add(actionRequest, "error-key");
-
 				throw new RuntimeException(e);
 			}
 
@@ -116,13 +115,14 @@ public class NewsletterSubscriptionPortlet extends MVCPortlet {
 			categories.forEach(category ->{
 				setUserCategories(finalEmail, category);
 			});
+
 			SessionMessages.add(actionRequest, "key");
 			actionResponse.sendRedirect("/subscrito-com-sucesso");
 		} else {
 			SessionErrors.add(actionRequest, "error-key");
 		}
 
-		actionResponse.sendRedirect("/subscrito-com-sucesso");
+		//actionResponse.sendRedirect("/subscrito-com-sucesso");
 
 		//actionResponse.setRenderParameter("email", email);
 		super.processAction(actionRequest, actionResponse);
