@@ -26,6 +26,8 @@ import static mail.newsletter.com.constants.NewsletterSubscriptionPortletKeys.FR
 import static mail.newsletter.com.constants.NewsletterSubscriptionPortletKeys.SEND_ALL;
 import static mail.newsletter.com.utils.UserSubscription.getHostLink;
 import static mail.newsletter.com.utils.UserSubscription.getUsers;
+import static mail.newsletter.com.utils.Utils.getUserGroupsGroup;
+import static mail.newsletter.com.utils.Utils.isSameGroup;
 
 public class EmailUtils {
 
@@ -88,7 +90,7 @@ public class EmailUtils {
 
     }
 
-    public static void getNotifyAdmin() {
+    public static void getNotifyAdmin(User publisher) {
 
         List<User> users = UserLocalServiceUtil.getUsers(0, 1000);
         List<String> emails = new ArrayList<>();
@@ -104,16 +106,23 @@ public class EmailUtils {
                 for (Role r : roles) {
                     role.add(r.getName());
                 }
-               // System.out.println(roles3.get(0).getName()+" "+role + " "+user.getEmailAddress());
-                //System.out.println(roles2.get(0).getDescriptiveName() + " "+user.getEmailAddress());
 
-                if (
-                    role.toString().contains("Administrator")||
-                    role.toString().contains("Reviewer")
-                ) {
-                    if (!user.getDisplayEmailAddress().contains("test")) {
+                if (role.toString().contains("Administrator") || role.toString().contains("Reviewer")) {
+
+                   List<Long> publisherIds = getUserGroupsGroup(publisher);
+                   List<Long> reviewerIds = getUserGroupsGroup(user);
+
+                   Boolean isLegit = isSameGroup(publisherIds, reviewerIds);
+                   Boolean isBlackList = user.getDisplayEmailAddress().contains("liferay");
+
+                    //System.out.println(emails);
+
+
+                    if (isLegit) {
+                        System.out.println("Email sent ");
+
                         emails.add(user.getDisplayEmailAddress());
-                    }
+                   }
                 }
             } catch (Exception e) {
                 //throw new RuntimeException(e);

@@ -1,22 +1,17 @@
 package mail.newsletter.com.utils;
 
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.blogs.model.BlogsEntry;
 import com.liferay.portal.kernel.exception.ModelListenerException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.UserGroupUtil;
 
-import javax.mail.internet.AddressException;
 import java.util.List;
-
-import static mail.newsletter.com.constants.NewsletterSubscriptionPortletKeys.FROM_EMAIL;
-import static mail.newsletter.com.constants.NewsletterSubscriptionPortletKeys.SEND_ALL;
 import static mail.newsletter.com.utils.EmailUtils.*;
-import static mail.newsletter.com.utils.UserSubscription.getHostLink;
-import static mail.newsletter.com.utils.UserSubscription.getUsers;
 
 public class CustomerBlogListener extends BaseModelListener<BlogsEntry>{
   private static Log _log = LogFactoryUtil.getLog(CustomerBlogListener.class);
@@ -38,8 +33,16 @@ public class CustomerBlogListener extends BaseModelListener<BlogsEntry>{
     super.onAfterUpdate(originalModel, model);
     _log.info("Update: "+model.getStatus());
 
+
     if (model.getStatus() == 1) {
-      getNotifyAdmin();
+      long id = model.getUserId();
+      try {
+        User user = UserLocalServiceUtil.getUser(id);
+        getNotifyAdmin(user);
+
+      } catch (PortalException e) {
+        throw new RuntimeException(e);
+      }
     }
 
     if (model.getStatus() == 0) {
