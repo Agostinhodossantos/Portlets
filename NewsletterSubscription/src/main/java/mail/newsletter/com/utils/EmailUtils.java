@@ -107,6 +107,7 @@ public class EmailUtils {
                     role.add(r.getName());
                 }
 
+                System.out.println(role.toString());
                 if (role.toString().contains("Administrator") || role.toString().contains("Reviewer")) {
 
                    List<Long> publisherIds = getUserGroupsGroup(publisher);
@@ -115,7 +116,7 @@ public class EmailUtils {
                    Boolean isLegit = isSameGroup(publisherIds, reviewerIds);
                    Boolean isBlackList = user.getDisplayEmailAddress().contains("liferay");
 
-                    //System.out.println(emails);
+                    System.out.println(emails);
 
 
                     if (isLegit) {
